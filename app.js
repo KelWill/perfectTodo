@@ -39,7 +39,7 @@ var TodoView = Backbone.View.extend({
   },
   tagName: 'li',
   className: 'todo list-group-item',
-  template: _.template("<span class = 'pull-left glyphicon glyphicon-check done'></span><%= todo %><span class = 'pull-right glyphicon glyphicon-trash float-right cancel'></span>"),
+  template: _.template("<span class = 'pull-left glyphicon glyphicon-check done'></span> <%= todo %><span class = 'pull-right glyphicon glyphicon-trash float-right cancel'></span>"),
   render: function(){
     this.$el.append(this.template(this.model.attributes));
     return this;
@@ -56,14 +56,16 @@ var TodoListView = Backbone.View.extend({
   },
   addOne: function(){
     var newTodoText = this.$el.find('#newTodo').val();
+    this.$el.find('#newTodo').val('');
     this.collection.add(new Todo({todo: newTodoText}));
   },
   renderOne: function(todo){
-    this.$el.find('ul').append(new TodoView({model: todo}).el);
+    this.$el.append(new TodoView({model: todo}).el);
   },
+  tagName: 'ul',
+  className: 'list-group',
   render: function(){
-    this.$el.append("<input type = 'text' id = 'newTodo'></input><button>Add</button>");
-    this.$el.append('<ul class = "list-group"></ul>');
+    this.$el.append("<form action = '#'><input type = 'text' id = 'newTodo'></input><button>Add</button></form>");
     $('#container').append(this.$el);
   }
 });
